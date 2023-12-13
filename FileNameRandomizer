@@ -1,0 +1,25 @@
+import os
+import random
+import string
+
+
+def rename_files_to_random(directory, name_length=8):
+    """
+    Rename all .jpg files in the given directory to a random string of digits and letters.
+    """
+    for filename in os.listdir(directory):
+        if filename.lower().endswith(".jpg"):
+            file_path = os.path.join(directory, filename)
+
+            # Generate a random filename
+            random_name = ''.join(random.choices(string.ascii_letters + string.digits, k=name_length))
+            new_filename = random_name + ".jpg"
+            new_file_path = os.path.join(directory, new_filename)
+
+            # Rename the file
+            os.rename(file_path, new_file_path)
+            print(f"Renamed {filename} to {new_filename}")
+
+
+# Replace the path below with the path to your image directory
+rename_files_to_random("C:\\Users\\jared\\OneDrive\\Desktop\\curratedData\\n")
