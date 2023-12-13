@@ -1,0 +1,34 @@
+from PIL import Image
+import os
+import uuid
+
+def convert_to_jpg_and_rename(directory, name_length=8):
+    """
+    Convert all non-JPG images in the given directory to JPG format, rename them to a random string of digits and letters,
+    and delete the original files. JPG images are ignored.
+    """
+    for filename in os.listdir(directory):
+        if not filename.lower().endswith(".jpg"):
+            file_path = os.path.join(directory, filename)
+
+            try:
+                with Image.open(file_path) as img:
+                    rgb_im = img.convert('RGB')
+
+                    # Generate a random filename
+                    random_name = str(uuid.uuid4())[:name_length]
+                    new_filename = random_name + ".jpg"
+                    new_file_path = os.path.join(directory, new_filename)
+                    rgb_im.save(new_file_path, "JPEG")
+                    print(f"Converted, renamed to {new_filename}, and saved")
+
+                # Delete the original file
+                os.remove(file_path)
+                print(f"Deleted original file {filename}")
+
+            except IOError:
+                print(f"Error processing {filename}. It might not be an image file.")
+
+
+# Replace the path below with the path to your image directory
+convert_to_jpg_and_rename("C:\\Users\\jared\\OneDrive\\Desktop\\curratedData\\p")
